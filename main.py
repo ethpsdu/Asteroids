@@ -28,6 +28,7 @@ def main():
     
     dt = 0
     player = Player(x = SCREEN_WIDTH / 2,y = SCREEN_HEIGHT / 2)
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -38,8 +39,13 @@ def main():
             if asteroids.collision_check(player):
                     print("Game over!")
                     sys.exit()
-        
+            for shot in shot_group:
+                if asteroids.collision_check(shot):
+                    asteroids.split()
+                    shot.kill()
+
         screen.fill("black")
+
         for drawable in draw_group:
             drawable.draw(screen)
         
