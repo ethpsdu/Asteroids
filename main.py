@@ -5,6 +5,7 @@ from constants import *
 from player import *
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+from shot import Shot
 import sys
 
 # Main Functional
@@ -16,10 +17,12 @@ def main():
     update_group = pygame.sprite.Group()
     draw_group = pygame.sprite.Group()
     asteroid_group = pygame.sprite.Group()
+    shot_group = pygame.sprite.Group()
 
     Player.containers = (update_group, draw_group)
     Asteroid.containers = (update_group, draw_group, asteroid_group)
     AsteroidField.containers = (update_group)
+    Shot.containers = (shot_group, update_group, draw_group)
     asteroid_field = AsteroidField()
     
     
