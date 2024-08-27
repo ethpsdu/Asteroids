@@ -3,17 +3,25 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 from constants import *
 from player import *
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
+import sys
 
-# Main Function
+# Main Functional
 def main():
     pygame.init()
-    
-    update_group = pygame.sprite.Group()
-    draw_group = pygame.sprite.Group()
-
-    Player.containers = (update_group, draw_group)
     screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
     clock = pygame.time.Clock()
+
+    update_group = pygame.sprite.Group()
+    draw_group = pygame.sprite.Group()
+    asteroid_group = pygame.sprite.Group()
+
+    Player.containers = (update_group, draw_group)
+    Asteroid.containers = (update_group, draw_group, asteroid_group)
+    AsteroidField.containers = (update_group)
+    asteroid_field = AsteroidField()
+    
     
     dt = 0
     player = Player(x = SCREEN_WIDTH / 2,y = SCREEN_HEIGHT / 2)
@@ -23,6 +31,10 @@ def main():
                 return
         for updatatable in update_group:
             updatatable.update(dt)
+        for asteroids in asteroid_group:
+            if asteroids.collision_check(player):
+                    print("Game over!")
+                    sys.exit()
         
         screen.fill("black")
         for drawable in draw_group:
